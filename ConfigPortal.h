@@ -8,6 +8,9 @@
 #include <ESP8266WebServer.h>
 #include <DNSServer.h>
 
+class IWiFiCredStorage;
+
+
 class ConfigPortal : Element
 {
  protected:
@@ -15,11 +18,12 @@ class ConfigPortal : Element
 	 virtual void Loop();
 
  public:
-	 ConfigPortal();
+	 ConfigPortal(IWiFiCredStorage* credStorage);
 
 	 void Start();
 	 void Stop();
 
+	 String Title;
 	 String Ssid;
 	 String Password;
 
@@ -29,6 +33,7 @@ private:
 	bool _active;
 	DNSServer* _dnsServer;
 	ESP8266WebServer* _webServer;
+	IWiFiCredStorage* _credStorage;
 
 	bool DoRedirect();
 	String BuildPage(const String& body);

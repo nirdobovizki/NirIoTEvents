@@ -12,18 +12,22 @@
 #include "Element.h"
 #include <functional>
 
+class IWiFiCredStorage;
+
 class WiFiConnection : Element
 {
 private:
 	unsigned long _connectStart;
 	int _state;
 	unsigned long _disconnectTime;
+	IWiFiCredStorage* _credStorage;
+
  protected:
 
 	 virtual void Loop();
 
  public:
-	 WiFiConnection();
+	 WiFiConnection(IWiFiCredStorage* credStorage);
 
 	 std::function<void()> OnConnected;
 	 std::function<void()> OnDisconnected;

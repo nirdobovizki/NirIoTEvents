@@ -4,6 +4,8 @@
 
 #include "WiFiConnection.h"
 #include "ESP8266WiFi.h"
+#include "IWiFiCredStorage.h"
+
 
 #if defined(DEBUG_WIFICONNECTION) || defined(DEBUG_ALL)
 #if !defined(DEBUG_WRITER)
@@ -28,8 +30,9 @@ enum InternetConnectionStates
 
 void* WiFiConnection::WiFiOwner;
 
-WiFiConnection::WiFiConnection() : _state(State_NotConnected), _connectStart(0)
+WiFiConnection::WiFiConnection(IWiFiCredStorage* credStorage) : _state(State_NotConnected), _connectStart(0)
 {
+	_credStorage = credStorage;
 	OnConnected = OnDisconnected = OnConnectFailure = OnConnectStart = []() {};
 }
 
@@ -43,11 +46,22 @@ void WiFiConnection::Loop()
 	case State_NotConnected:
 		break;
 	case State_StartConnect:
+	{
 		DebugOut("WiFiConection:\nAttempting to connect");
 		_connectStart = now;
 		OnConnectStart();
-		WiFi.begin();
-		_state = State_Connecting;
+		String ssid, password;
+		if (_credStorage->Read(ssid, password))
+		{
+			WiFi.begin(ssid.c_str(), password.c_str());
+			_state = State_Connecting;
+		}
+		else
+		{
+			WiFi.begin();
+			_state = State_Connecting;
+		}
+	}
 		break;
 	case State_Connecting:
 	case State_Connected:
@@ -115,5 +129,5 @@ void WiFiConnection::ConnectWiFi()
 
 bool WiFiConnection::IsConnected()
 {
-	return WiFi.status() == WL_CONNECTED;
+	return _state != State_NotConnected && WiFi.status() == WL_CONNECTED;
 }

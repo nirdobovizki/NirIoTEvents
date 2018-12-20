@@ -69,6 +69,12 @@
     <ClInclude Include="OneShotTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IWiFiCredStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SPIFFSWifiCredStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Element.cpp">
@@ -108,6 +114,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OneShotTimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SPIFFSWifiCredStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

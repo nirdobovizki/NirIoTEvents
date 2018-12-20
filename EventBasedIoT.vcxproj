@@ -87,8 +87,10 @@
     <ClInclude Include="Element.h" />
     <ClInclude Include="GrowingArray.h" />
     <ClInclude Include="BlockingHttpClient.h" />
+    <ClInclude Include="IWiFiCredStorage.h" />
     <ClInclude Include="MillisecondPulseOutput.h" />
     <ClInclude Include="OneShotTimer.h" />
+    <ClInclude Include="SPIFFSWifiCredStorage.h" />
     <ClInclude Include="WiFiConnection.h" />
     <ClInclude Include="Led.h" />
     <ClInclude Include="LoopManager.h" />
@@ -106,6 +108,7 @@
     <ClCompile Include="BlockingHttpClient.cpp" />
     <ClCompile Include="MillisecondPulseOutput.cpp" />
     <ClCompile Include="OneShotTimer.cpp" />
+    <ClCompile Include="SPIFFSWifiCredStorage.cpp" />
     <ClCompile Include="WiFiConnection.cpp" />
     <ClCompile Include="Led.cpp" />
     <ClCompile Include="LoopManager.cpp" />

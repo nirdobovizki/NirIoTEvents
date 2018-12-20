@@ -6,14 +6,17 @@
 #include "ConfigPortalPages.h"
 #include "StringUtils.h"
 #include "WiFiConnection.h"
+#include "IWiFiCredStorage.h"
 #include <algorithm>
 
-ConfigPortal::ConfigPortal() :
+ConfigPortal::ConfigPortal(IWiFiCredStorage* credStorage) :
 	_active(false),
 	_dnsServer(NULL),
 	_webServer(NULL),
-	Ssid("NirIotDevice"),Password("1234567890")
+	Ssid("NirIotDevice"),Password("1234567890"),
+	Title("Network Configuration")
 {
+	_credStorage = credStorage;
 	OnNetworkActivity = []() {};
 }
 
@@ -80,11 +83,11 @@ void ConfigPortal::HandleRoot()
 			networkFregmntValues, 3);
 	}
 
-	static String bodyKeys[] = { "networks" };
-	String bodyValues[] = { networkOptions };
+	static String bodyKeys[] = { "networks", "title" };
+	String bodyValues[] = { networkOptions, Title };
 	String body = StringUtils::ProcessTemplate(String(CP_RootBody),
 		bodyKeys ,
-		bodyValues , 1);
+		bodyValues , 2);
 	_webServer->send(200, "text/html", BuildPage(body));
 }
 
@@ -98,6 +101,7 @@ void ConfigPortal::HandleSave()
 	while (WiFi.status() != WL_CONNECTED && millis() - connectStart < 10000) delay(10);
 	if (WiFi.status() == WL_CONNECTED)
 	{
+		_credStorage->Write(ssid, password);
 		Serial.println("Connection successful");
 		_webServer->send(200, "text/html", BuildPage(CP_SaveSuccessBody));
 		delay(10000);
@@ -155,5 +159,7 @@ bool ConfigPortal::DoRedirect()
 
 String ConfigPortal::BuildPage(const String& body)
 {
-	return String(CP_PageHeader) + body + CP_PageFooter;
+	static String keys[] = { "title" };
+	String values[] = { Title };
+	return StringUtils::ProcessTemplate(String(CP_PageHeader), keys, values, 1) + body + CP_PageFooter;
 }
