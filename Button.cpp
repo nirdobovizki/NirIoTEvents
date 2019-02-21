@@ -46,6 +46,7 @@ Button::Button(uint8_t pin, bool pressedIsHigh, bool pullup) :
 
 void Button::Loop()
 {
+	_input.Update();
 	if (_state == State_Pressed && millis() - _pressTime > LongPressTime)
 	{
 		_state = State_LongPressReported;

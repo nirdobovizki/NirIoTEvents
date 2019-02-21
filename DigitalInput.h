@@ -28,6 +28,8 @@ protected:
 	 std::function<void()> OnHigh;
 	 std::function<void()> OnLow;
 
+	 void Update();
+
 };
 
 

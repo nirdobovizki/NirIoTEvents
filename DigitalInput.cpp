@@ -9,6 +9,10 @@ DigitalInput::DigitalInput(uint8_t pin):_pin(pin),_prevState(0),_changeTime(0)
 	OnHigh = OnLow = []() {};
 }
 
+void DigitalInput::Update()
+{
+	Loop();
+}
 void DigitalInput::Loop()
 {
 	auto state = digitalRead(_pin);
