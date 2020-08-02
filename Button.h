@@ -30,6 +30,8 @@ private:
 	 std::function<void()> OnRelease;
 
 	 unsigned int LongPressTime;
+	 unsigned int IgnoreShortPresses;
+	 unsigned int IgnoreAfterRelease;
 };
 
 #endif
