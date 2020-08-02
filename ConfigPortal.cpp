@@ -45,7 +45,7 @@ void ConfigPortal::Start()
 	_webServer->begin();
 
 	Serial.println(String("Configuration Portal Started\nNetwork: ") + Ssid +
-		"\nPassword: " + Password + "\nIP Address: " + WiFi.softAPIP());
+		"\nPassword: " + Password + "\nIP Address: " + WiFi.softAPIP().toString());
 }
 
 void ConfigPortal::Stop()
