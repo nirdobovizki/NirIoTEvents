@@ -19,15 +19,19 @@ private:
 
 
 public:
+	GrowingArray() :m_buffer(NULL), m_count(0), m_size(0) {}
 	int GetCount() { return m_count; }
 	void Add(T& value)
 	{
 		if (m_count == m_size)
 		{
 			int newSize = m_size + 5;
-			T* newData = (T*)malloc(sizeof(T)*newSize);
-			memcpy(newData, m_buffer, sizeof(T)*m_size);
-			free(m_buffer);
+			T* newData = new T[newSize];
+			if (m_buffer != NULL)
+			{
+				for (size_t i = 0; i < m_count; ++i) newData[i] = m_buffer[i];
+				delete[] m_buffer;
+			}
 			m_buffer = newData;
 			m_size = newSize;
 		}
